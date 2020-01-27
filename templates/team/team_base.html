@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+	<title>Avanee Agro Services | Distribute & Sells | Fruits | Vegetables | Strawberry | Organic | Fresh | Contact : +91 9325117476</title>
+	<!-- Meta tag Keywords -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8" />
+    <meta name="keywords" content="Avanee Agro Services, Strawberry, Fresh Strawberry, Sell & Distribute, Fresh fruits," />
+	<script>
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+	</script>
+	<!-- //Meta tag Keywords -->
+
+	<!-- Custom-Files -->
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/bootstrap.css')}}">
+
+	<!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/fruits.css')}}" type="text/css" media="all" />
+	<!-- Style-CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/font-awesome.css')}}">
+
+	<!-- Font-Awesome-Icons-CSS -->
+	<!-- //Custom-Files -->
+	<!-- Web-Fonts -->
+	<link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=devanagari,latin-ext"
+	 rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+	 rel="stylesheet">
+    <!-- //Web-Fonts -->
+    <script src="{{url_for('static', filename = 'js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename = 'js/bootstrap.js')}}"></script>
+
+    <script src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static', filename = 'js/script.min.js')}}"></script>
+    
+</head>
+
+<body>
+	<!-- header -->
+	<header>
+		<!-- navigation -->
+		<div class="main-top py-1">
+			<nav class="navbar navbar-expand-lg navbar-light fixed-navi">
+				<div class="container">
+					<!-- logo -->
+					<a class="navbar-brand font-weight-bold" href="/">
+						AVANEE AGRO
+					</a>
+					<!-- //logo -->
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+                    </button>
+                    {% if session.logged_in %}
+
+                    {% if login_user['user'] == 'sales' %}
+
+					<div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+						<ul class="navbar-nav ml-lg-auto">
+                            <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                                <a class="nav-link" href="/dashboard_sell/{{user}}">TODAY</a>
+                            </li>
+                            <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                                <a class="nav-link" href="/profile/{{user}}">PROFILE</a>
+                            </li>
+                            <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                                <a class="nav-link" href="/team_expenses/{{user}}">EXPENSES</a>
+                            </li>
+							<li class="nav-item mx-lg-4 my-lg-0 my-3">
+								<a href="/logout" class="reqe-button">Logout</a>
+                            </li>
+                            
+						</ul>
+                    </div>
+
+                    {% else %}
+
+                    <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-lg-auto">
+                            <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                                <a class="nav-link" href="/dashboard_purchase/{{user}}">TODAY</a>
+                            </li>
+                            <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                                <a class="nav-link" href="/farmers_purchase/{{user}}">Farmers</a>
+                            </li>
+                            <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                                <a class="nav-link" href="/profile/{{user}}">PROFILE</a>
+                            </li>
+                            <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                                <a href="/logout" class="reqe-button">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                {% else %}
+                
+                    <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-lg-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/">Home
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                                    <a class="nav-link" href="/about_avanee_agro">About Us</a>
+                            </li>
+                            <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                                <a class="nav-link" href="/products_avanee_agro">Products</a>
+                            </li>
+                            <li class="nav-item mx-lg-4 my-lg-0 mt-3">
+                                <a class="nav-link" href="/contact_avanee_agro">Contact Us</a>
+                            </li>
+                            
+                            <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                                <a href="/login" class="reqe-button">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                {% endif %}
+
+				</div>
+			</nav>
+		</div>
+		<!-- //navigation -->
+	</header>
+    <!-- //header -->
+    {% block body %} 
+
+    {% endblock %}
+
+
+
+    <!-- footer -->
+	<footer class="footer-emp-w3ls py-sm-5 py-4">
+            <div class="container py-xl-5 py-lg-3">
+                <div class="row footer-top">
+                    <div class="col-lg-4 col-sm-6 footer-grid-wthree">
+                        <h1 class="footer-title text-uppercase text-white mb-lg-5 mb-4">Who We Are</h1>
+                        <div class="contact-info">
+                            <p>Fruit sellers in wholesale</p>
+                            <a href="about.html" class="btn button-style mt-sm-4 mt-3">About Us</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 footer-grid-wthree mt-lg-0 mt-5">
+                        <h3 class="footer-title text-uppercase text-white mb-lg-5 mb-4">Contact Us</h3>
+                        <div class="contact-info">
+                            <div class="footer-style-w3ls">
+                                <h4 class="text-light mb-2">Phone</h4>
+                                <p>+91 9325117476</p>
+                            </div>
+                            <div class="footer-style-w3ls my-4">
+                                <h4 class="text-light mb-2">Email </h4>
+                                <p><a href="avaneeagroservices@gmail.com">avaneeagroservices@gmail.com</a></p>
+                            </div>
+                            <div class="footer-style-w3ls">
+                                <h4 class="text-light mb-2">Location</h4>
+                                <p>Pune, MH, India</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 footer-grid-wthree mt-lg-0 mt-5">
+                        <h2 class="footer-title text-white mb-lg-5 mb-4">Quick Links</h2>
+                        <ul class="links list-unstyled">
+                            <li>
+                                <a href="/">Home</a>
+                            </li>
+                            <li>
+                                <a href="/about_Avani_Group">About Us</a>
+                            </li>
+                            <li>
+                                <a class="scroll" href="/services_Avani_Group">Our Services</a>
+                            </li>
+                            <li>
+                                <a href="/gallery_Avani_Group">Gallery</a>
+                            </li>
+                            <li>
+                                <a href="/contact_Avani_Group" class="m-0">Contact Us</a>
+                            </li>
+                            <li>
+                                <a title="Facebook" href="https://www.facebook.com/avaneeagro/">
+                                    <span class="fa-stack fa-lg">
+                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copy-right-top border-top mt-5">
+                <p class="copy-right text-center pt-xl-5 pt-4"> 2018 AVANEE AGRO SERVICES. All Rights Reserved | Design by
+                    <a href="http://pythonbrains.com/"> Python Brains </a>
+                </p>
+            </div>
+        </footer>
+        <!-- //footer -->
+</body>
+    
+</html>

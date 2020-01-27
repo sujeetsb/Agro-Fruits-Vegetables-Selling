@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Purchase Details|Avanee Agro Services</title>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/bootstrap.css')}}">
+    <script src="{{url_for('static', filename = 'js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename = 'js/bootstrap.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#edit").modal('show');
+        });
+    </script>
+</head>
+<body>
+    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="" method="POST">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Edit Purchase Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="farmer">Farmer Label: </label>
+                        <input class="form-control " type="text" value="{{details['farmer']}}" placeholder="{{details['farmer']}}" name="farmer">
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Product Name: </label>
+                        <input class="form-control " type="text" value="{{details['product']}}" placeholder="{{details['product']}}" name="product">
+                    </div>
+                    <div class="form-group">
+                        <label for="grade">Product Grade: </label>
+                        <input class="form-control " type="text" value="{{details['grade']}}" placeholder="{{details['grade']}}" name="grade">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Product quantity: </label>
+                        <input class="form-control " type="text" value="{{details['quantity']}}" placeholder="{{details['quantity']}}" name="quantity">
+                    </div>
+                    <div class="form-group">
+                        <label for="rate">Product Rate: </label>
+                        <input class="form-control " type="text" placeholder="{{details['rate']}}" name="rate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="transport">Tranport :</label>
+                        <input class="form-control " type="text" value="{{details['transport']}}" placeholder="{{details['transport']}}" name="transport">
+                    </div>
+                </div>
+                <div class="modal-footer ">
+                    <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+      
+</body>
+</html>
+
+
+
+

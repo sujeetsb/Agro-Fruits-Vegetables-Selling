@@ -1,0 +1,64 @@
+{% extends 'team/team_base.html' %}
+
+{% block body %}
+<script>
+$(document).ready(function(){
+	$('#addbtn').click(function(){
+		var newitem = $('#reason').val() + $('#amount').val();
+		var uniqid = Math.round(new Date().getTime() + (Math.random() * 100));
+		$('#list').append('<li id="'+uniqid+'" class="list-group-item"><input type="button" data-id="'+uniqid+'" class="listelement" value="X" /> '+newitem+'<input type="hidden" name="listed[]" value="'+newitem+'"></li>');
+		$('#reason').val('') + $('#amount').val('');
+		return false;
+	});
+    $('#list').delegate(".listelement", "click", function() {
+		var elemid = $(this).attr('data-id');
+		$("#"+elemid).remove();
+    });
+});
+</script>
+
+
+<div class="breadcrumb-agile">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">User : {{user}}</li>
+    </ol>
+</div>
+<div class="address py-5" id="contact">
+<div class="container">
+    <!-- heading title -->
+    <div class="main-title text-center">
+        <h3 class="tittle text-dark font-weight-bold">Add Daily Expenses</h3>
+        <p class="sub-tittle mt-2">Enter Your daily Expense details to Submit this form</p>
+    </div>
+            
+
+<div class="row address-row">
+    <div class="col-md-3 "></div>
+    <div class="col-md-6 col-xs-6 col-xs-offset-1">
+        <div class="wow agile fadeInLeft animated mt-lg-0 mt-5" data-wow-delay=".5s">
+            <div class="address-grid p-sm-5 p-4">
+                <form action="" method="POST">
+                        
+                    <input class="form-control" type="text" placeholder="Reason" style="margin:5px 0px;margin-top:-5px;" name="reason" id="reason">
+                    <input class="form-control" type="text" placeholder="Amount" style="margin:5px 0px;margin-top:-5px;" name="amount" id="amount">
+                    <input type="button" id="addbtn" name="addbtn" value="Add" class="btn btn-primary btn-sm" />
+                    <div class="form-group">
+                        <h5>List of Expenses:</h5>
+                        <hr>
+                        <ul id="list" class="list-group">
+                        </ul>
+                    </div>
+                        <button class="btn btn-info btn-block" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+</div>
+</div>
+{% endblock %}

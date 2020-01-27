@@ -1,0 +1,53 @@
+{% extends 'team/team_base.html' %}
+
+{% block body %}
+<div class="breadcrumb-agile">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">User : {{user}}</li>
+    </ol>
+</div>
+<div class="address py-5" id="contact">
+<div class="container">
+    <!-- heading title -->
+    <div class="main-title text-center">
+        <h3 class="tittle text-dark font-weight-bold">Update Profile</h3>
+        <p class="sub-tittle mt-2">Edit your Profile if anything changed happened.</p>
+    </div>
+            
+
+<div class="row address-row">
+    <div class="col-md-3 "></div>
+    <div class="col-md-6 col-xs-6 col-xs-offset-1">
+        <div class="wow agile fadeInLeft animated mt-lg-0 mt-5" data-wow-delay=".5s">
+            <div class="address-grid p-sm-5 p-4">
+                <form action="" method="POST">
+                    <div class="form-group">
+                        <label for="full_name"><strong>Full Name : </strong></label>
+                        <input class="form-control" type="text" value="{{login_user['full_name']}}" style="margin:5px 0px;margin-top:-5px;" name="full_name">  
+                    </div>
+                    <div class="form-group">
+                        <label for="address"><strong>Address : </strong></label>
+                        <input class="form-control" type="text" value="{{login_user['address']}}" style="margin:5px 0px;margin-top:-5px;" name="address">  
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><strong>Email-id : </strong></label>
+                        <input class="form-control" type="email" value="{{login_user['email']}}" style="margin:5px 0px;margin-top:-5px;" name="email">  
+                    </div>
+                    <div class="form-group">
+                        <label for="contact"><strong>Mobile Id : </strong></label>
+                        <input class="form-control" type="text" value="{{login_user['contact']}}" style="margin:5px 0px;margin-top:-5px;" name="contact">  
+                    </div>
+                   <button class="btn btn-info btn-block" type="submit">Edit Profile</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,293 @@
+{% extends 'admin/admin_base.html' %}
+{% block body %}
+
+<div class="container">
+	<div class="row">
+<div class="col-md-12 col-xs-10">
+<h1 style="text-align:center">Manage Team</h1>
+<hr>
+<h2>Distribution Team</h2>
+<button class="btn btn-danger btn-sm pull-right" data-title="Add" data-toggle="modal" data-target="#add_sales" ><span class="glyphicon glyphicon-plus"> Add </span></button>
+<br>
+<div class="table-responsive">
+<table id="mytable" class="table table-bordred table-striped">
+<thead>
+    <th><input type="checkbox" id="checkall" /></th>
+    <th>Full Name</th>
+    <th>Address</th>
+    <th>Email</th>
+    <th>Contact</th>
+    <th>Birthdate</th>
+    <th>Username</th>
+    <th>Password</th>
+    <th>Delete</th>
+</thead>
+<tbody>
+        {% for i in sales %}
+    <tr>
+    <td><input type="checkbox" class="checkthis" /></td>
+    <td>{{i.full_name}}</td>
+    <td>{{i.address}}</td>
+    <td>{{i.email}}</td>
+    <td>{{i.contact}}</td>
+    <td>{{i.birthdate}}</td>
+    <td>{{i.username}}</td>
+    <td>{{i.password}}</td>
+    <td><p data-placement="top" data-toggle="tooltip" title="Edit">
+        <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
+            <span class="glyphicon glyphicon-trash"></span>
+        </button>
+        </p>
+    </td>
+    </tr>
+    {% endfor %}
+
+</tbody>
+        
+</table>
+                
+</div>
+
+<hr>
+<h2>Purchase Team</h2>
+<button class="btn btn-danger btn-sm pull-right" data-title="Add" data-toggle="modal" data-target="#add_purchase" ><span class="glyphicon glyphicon-plus"> Add </span></button>
+<br>
+<div class="table-responsive">
+<table id="mytable" class="table table-bordred table-striped">
+<thead>
+    <th><input type="checkbox" id="checkall" /></th>
+    <th>Full Name</th>
+    <th>Address</th>
+    <th>Email</th>
+    <th>Contact</th>
+    <th>Birthdate</th>
+    <th>Username</th>
+    <th>Password</th>
+    <th>Delete</th>
+</thead>
+<tbody>
+        {% for i in purchase %}
+    <tr>
+    <td><input type="checkbox" class="checkthis" /></td>
+    <td>{{i.full_name}}</td>
+    <td>{{i.address}}</td>
+    <td>{{i.email}}</td>
+    <td>{{i.contact}}</td>
+    <td>{{i.birthdate}}</td>
+    <td>{{i.username}}</td>
+    <td>{{i.password}}</td>
+    <td><p data-placement="top" data-toggle="tooltip" title="Edit">
+        <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
+            <span class="glyphicon glyphicon-trash"></span>
+        </button>
+        </p>
+    </td>
+    </tr>
+    {% endfor %}
+
+</tbody>
+        
+</table>
+                
+</div>
+
+
+<hr>
+<h2>Transport Team</h2>
+<button class="btn btn-danger btn-sm pull-right" data-title="Add" data-toggle="modal" data-target="#add_transport" ><span class="glyphicon glyphicon-plus"> Add </span></button>
+<br>
+<div class="table-responsive">
+<table id="mytable" class="table table-bordred table-striped">
+<thead>
+    <th><input type="checkbox" id="checkall" /></th>
+    <th>Full Name</th>
+    <th>Address</th>
+    <th>Contact</th>
+    <th>Vehicle name</th>
+    <th>Vehicle Type</th>
+    <th>Vehicle No</th>
+    <th>Delete</th>
+</thead>
+<tbody>
+        {% for i in transport %}
+    <tr>
+    <td><input type="checkbox" class="checkthis" /></td>
+    <td>{{i.transport_type}}</td>
+    <td>{{i.full_name}}</td>
+    <td>{{i.address}}</td>
+    <td>{{i.contact}}</td>
+    <td>{{i.vehicle_name}}</td>
+    <td>{{i.vehicle_type}}</td>
+    <td>{{i.vehicle_no}}</td>
+    <td><p data-placement="top" data-toggle="tooltip" title="Edit">
+        <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
+            <span class="glyphicon glyphicon-trash"></span>
+        </button>
+        </p>
+    </td>
+    </tr>
+    {% endfor %}
+
+</tbody>
+        
+</table>
+                
+</div>
+
+<h2>Expenses Report</h2>
+<button class="btn btn-danger btn-sm pull-right" data-title="Add" data-toggle="modal" data-target="#add_transport" ><span class="glyphicon glyphicon-plus"> Add </span></button>
+<br>
+<div class="table-responsive">
+    <table id="mytable" class="table table-bordred table-striped">
+    <thead>
+        <th>Date</th>
+        <th>Team</th>
+        <th>Person</th>
+        <th>Amount</th>
+        <th>Amount Type</th>
+        <th>Comment</th>
+    </thead>
+    <tbody>
+            {% for i in expenses %}
+        <tr>
+        <td>{{i.date}}</td>
+        <td>{{i.team}}</td>
+        <td>{{i.name}}</td>
+        <td>{{i.amount}}</td>
+        <td>{{i.amount_type}}</td>
+        <td>{{i.comment}}</td>
+        </tr>
+        {% endfor %}
+    
+    </tbody>
+            
+    </table>
+                    
+</div>
+
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="add_sales" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="" method="POST" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Add Sales Person Details</h4>
+            </div>
+            <div class="modal-body">
+                
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Full Name" name="sales_full_name">
+                </div>
+                <div class="form-group">
+                    <textarea rows="2" class="form-control" placeholder="Address" name="sales_address"></textarea>
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="email" placeholder="email-id" name="sales_email">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Contact No" name="sales_contact">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="date" placeholder="birthdate" name="sales_birthdate">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="username" name="sales_username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Password" name="sales_password">
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="submit" name="btn" class="btn btn-warning btn-lg" value="Sales" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add_purchase" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="" method="POST">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Add Purchase Person Details</h4>
+            </div>
+            <div class="modal-body">
+                
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Full Name" name="purchase_full_name">
+                </div>
+                <div class="form-group">
+                    <textarea rows="2" class="form-control" placeholder="Address" name="purchase_address"></textarea>
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="email" placeholder="email-id" name="purchase_email">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Contact No" name="purchase_contact">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="username" name="purchase_username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Password" name="purchase_password">
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="submit" class="btn btn-warning btn-lg" name="btn" value="Purchase" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add_transport" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="" method="POST">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Add Transport & Person Details</h4>
+            </div>
+            <div class="modal-body">
+                <select 
+                    class="form-control" style="font-size:17px;margin:10px 0px;" name="transport_type">
+                    <option value="" selected="">Transport Type</option>
+                    <option value="Purchase">Purchase </option>
+                    <option value="Distribution">Distribution</option>
+                </select>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Full Name" name="transport_full_name">
+                </div>
+                <div class="form-group">
+                    <textarea rows="2" class="form-control" placeholder="Address" name="transport_address"></textarea>
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Contact No" name="transport_contact">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Vehicle Name" name="vehicle_name">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Vehicle Type" name="vehicle_type">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Vehicle No" name="vehicle_no">
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="submit" class="btn btn-warning btn-lg" name="btn" value="Transport" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

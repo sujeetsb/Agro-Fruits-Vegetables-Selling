@@ -1,0 +1,93 @@
+{% extends 'admin/admin_base.html' %}
+{% block body %}
+<div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-10">
+                
+    <h2>List Of Products</h2>
+                <button class="btn btn-danger btn-sm float-right" data-title="Add" data-toggle="modal"
+                data-target="#add"><span class="glyphicon glyphicon-plus"> Add </span>
+                </button>
+                <br>
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                            <th>
+                                <input type="checkbox" id="checkall">
+                            </th>
+                            <th>Product Name</th>
+                            <th>Type</th>
+                            <th>Unit</th>
+                            <th>Subunit</th>
+                            <th>Delete</th>
+                        </thead>
+                        <tbody>{% for i in p %}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="checkthis">
+                                </td>
+                                <td>{{i.product_name}}</td>
+                                <td>{{i.type}}</td>
+                                <td>{{i.unit}}</td>
+                                <td>{{i.subunit}}</td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                        <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
+                                        data-target="#edit"> <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                            </tr>{% endfor %}</tbody>
+                    </table>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add"
+    aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="" method="POST">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                         <h4 class="modal-title custom_align" id="Heading">Add Farmer Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input class="form-control " type="text" placeholder="Product Name" name="product_name">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" style="font-size:20px;margin:10px 0px;" name="type">
+                                <option value="None" selected>Type</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Vegetables">Vegetables</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" style="font-size:20px;margin:10px 0px;" name="unit">
+                                <option value="None" selected>Units</option>
+                                <option value="Bags">Bags</option>
+                                <option value="Kg">Kg</option>
+                                <option value="Box">Box</option>
+                                <option value="Carrots">Carrots</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" style="font-size:20px;margin:10px 0px;" name="sub_unit">
+                                <option value="None" selected>Sub-unit</option>
+                                <option value="Tray">Tray</option>
+                                <option value="Small Boxes">Small Boxes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span>&#xA0;Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
