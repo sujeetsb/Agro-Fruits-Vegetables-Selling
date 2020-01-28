@@ -393,6 +393,7 @@ def team():
     sales = hello.find({'user' : 'sales'})
     purchase = hello.find({'user' : 'purchase'})
     transport = mongo.db.transport.find()
+    expense = mongo.db.expense.find()
     if request.method == "POST":
         if request.form['btn'] == "Sales":
             user = mongo.db.users
@@ -406,8 +407,11 @@ def team():
             vehicle = mongo.db.transport
             vehicle.insert({"transport_type": request.form['transport_type'], "full_name": request.form['transport_full_name'], 'address' : request.form['transport_address'], 'contact' : request.form['transport_contact'],
             "vehicle_name": request.form['vehicle_name'], 'vehicle_type': request.form['vehicle_type'], 'vehicle_no' : request.form['vehicle_no']})
-    return render_template('admin/admin_team.html', sales = sales, purchase = purchase, transport = transport)
-
+        elif request.form['btn'] == "Expense":
+            user = mongo.db.expense
+            user.insert({"expense_date":request.form['expense_date'], "expense_team_name":request.form['expense_team_name'],"expense_person":request.form['expense_person'],"expense_amount":request.form["expense_amount"],"expense_amount_type":request.form['expense_amount_type'],"expense_reason":request.form['expense_reason']})
+    return render_template('admin/admin_team.html', sales = sales, purchase = purchase, transport = transport, expense = expense, team = team)
+ 
 # ----------------------------------------Payment---------------------------------------------- #
 @app.route('/payments', methods = ["POST", "GET"])
 @login_required
@@ -479,17 +483,36 @@ def customer_ledger():
 @app.route('/admin_stock', methods=["GET", "POST"])
 @login_required
 def admin_stock():
+    now = datetime.datetime.now()
+    date = now.strftime("%d-%m-%Y")
     return render_template('admin/admin_stock.html')
 # ----------------------------------------Admin Sell---------------------------------------------- #
 @app.route('/admin_sell', methods=["GET", "POST"])
 @login_required
-def admin_sell():
-    return render_template('admin/admin_sell.html')
+def admin_sell(user=None):
+    now = datetime.datetime.now()
+    date = now.strftime("%d-%m-%Y")
+    details_s = mongo.db.sales_details.find({'date': date})
+    if request.method == "POST":
+          date = request.form['date']
+          date = date.replace('/', '-')
+          details_s = mongo.db.sales_details.find({'date': date})
+    return render_template('admin/admin_sell.html',details_s = details_s, date=date, user=user)
+    # return render_template('admin/admin_sell.html')
 # ----------------------------------------Admin Purchase---------------------------------------------- #
 @app.route('/admin_purchase', methods=["GET", "POST"])
 @login_required
-def admin_purchase():
-    return render_template('admin/admin_purchase.html')    
+def admin_purchase(user=None):
+    now = datetime.datetime.now()
+    date = now.strftime("%d-%m-%Y")
+    details_p = mongo.db.purchase_details.find({'date': date})
+    if request.method == "POST":
+        date = request.form['date']
+        date = date.replace('/', '-')
+        details_p = mongo.db.purchase_details.find({'date': date})
+        
+    return render_template('admin/admin_purchase.html', details_p = details_p, date=date, user=user)
+    # return render_template('admin/admin_purchase.html')    
 # ----------------------------------------Farmer Ledger---------------------------------------------- #
 @app.route('/farmer_ledger', methods=["GET", "POST"])
 @login_required
