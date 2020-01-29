@@ -32,7 +32,7 @@ $(document).ready(function() {
     </div>
     <div class="main-title text-center">
         <h3 class="tittle text-dark font-weight-bold">Distribution Section</h3>
-        <p class="sub-tittle mt-2">Enter Customer details and Order details to Submit this form</p>
+        <p class="sub-tittle mt-2">Enter Customer Details And Order Details To Submit This Form</p>
     </div>
 <div class="col-md-12">
     <div class="row address-row">
@@ -68,11 +68,11 @@ $(document).ready(function() {
                                 <input class="form-control" type="text" placeholder="No of Box / No of Carrots" style="margin:5px 0px;margin-top:-5px;" name="unit">
                                 <input class="form-control" type="text" placeholder="No of Trays / No of Kg" style="margin:5px 0px;margin-top:-5px;" name="quantity">
                                 <select
-                                class="form-control" style="font-size:20px;margin:10px 0px;" name="productgrade">
-                                <option value="" selected="">Products Grade</option>
-                                {% for i in products %}
-                                <option value="{{i['product_grade']}}">{{i['product_grade']}}</option>
-                                {% endfor %}
+                                    class="form-control" style="font-size:20px;margin:10px 0px;" name="grade">
+                                    <option value="" selected="">Grade Level</option>
+                                    {% for i in products %}
+                                    <option value="{{i['product_grade']}}">{{i['product_grade']}}</option>
+                                    {% endfor %}
                                 </select>
                                 <input class="form-control" type="text" placeholder="Rate" style="margin:5px 0px;margin-top:-5px;" name="rate">
                                 <button name="button" value="loose" class="btn btn-info btn-block" type="submit">Submit</button>
@@ -99,11 +99,11 @@ $(document).ready(function() {
                                 <input class="form-control" type="text" placeholder="No of Box / No of Carrots" style="margin:5px 0px;margin-top:-5px;" name="unit">
                                 <input class="form-control" type="text" placeholder="No of Trays / No of Kg" style="margin:5px 0px;margin-top:-5px;" name="quantity">
                                 <select
-                                class="form-control" style="font-size:20px;margin:10px 0px;" name="productgrade">
-                                <option value="" selected="">Products Grade</option>
-                                {% for i in products %}
-                                <option value="{{i['product_grade']}}">{{i['product_grade']}}</option>
-                                {% endfor %}
+                                    class="form-control" style="font-size:20px;margin:10px 0px;" name="grade">
+                                    <option value="" selected="">Grade Level</option>
+                                    {% for i in products %}
+                                    <option value="{{i['product_grade']}}">{{i['product_grade']}}</option>
+                                    {% endfor %}
                                 </select>
                                 <input class="form-control" type="text" placeholder="Rate" style="margin:5px 0px;margin-top:-5px;" name="rate">
                                 <button name="button" value="regular" class="btn btn-info btn-block" type="submit">Submit</button>

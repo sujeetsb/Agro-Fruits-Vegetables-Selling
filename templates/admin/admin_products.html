@@ -17,6 +17,7 @@
                             </th>
                             <th>Product Name</th>
                             <th>Type</th>
+                            <th>Grade</th>
                             <th>Unit</th>
                             <th>Subunit</th>
                             <th>Delete</th>
@@ -28,6 +29,7 @@
                                 </td>
                                 <td>{{i.product_name}}</td>
                                 <td>{{i.type}}</td>
+                                <td>{{i.grade}}</td>
                                 <td>{{i.unit}}</td>
                                 <td>{{i.subunit}}</td>
                                 <td>
@@ -63,6 +65,14 @@
                                 <option value="None" selected>Type</option>
                                 <option value="Fruits">Fruits</option>
                                 <option value="Vegetables">Vegetables</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" style="font-size:20px;margin:10px 0px;" name="grade">
+                                <option value="None" selected>Grade</option>
+                                <option value="grade1">Grade 1</option>
+                                <option value="grade2">Grade 2</option>
+                                <option value="grade3">Grade 3</option>
                             </select>
                         </div>
                         <div class="form-group">

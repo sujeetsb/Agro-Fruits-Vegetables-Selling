@@ -147,6 +147,7 @@ def dashboard_purchase(user=None):
     login_user = mongo.db.users.find_one({'username': user})
     products = mongo.db.products.find()
     farmers = mongo.db.farmers.find()
+    grade = mongo.db.grade.find()
     transport = mongo.db.transport.find()
     if request.method == "POST":
         date = request.form['date']
@@ -159,9 +160,10 @@ def dashboard_purchase(user=None):
             farmer = request.form['farmer']
             product = request.form['product']
             quantity = request.form['quantity']
+            grade = request.form['grade']
             # farmer_phone = request.form['farmer_phone']
             details = mongo.db.purchase_details
-            details.insert({"farmer": request.form['farmer'], "product": request.form['product'], "amount": "0",
+            details.insert({"farmer": request.form['farmer'],'type':"loose", "product": request.form['product'], "amount": "0",
             "grade": request.form['grade'], "quantity": request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
             "transport": request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
         
@@ -173,13 +175,14 @@ def dashboard_purchase(user=None):
             # req = urllib2.Request(url, postdata)
             # response = urllib2.urlopen(req)
             # print(response.read())
-            return render_template('team/purchase.html', products = products, farmers = farmers, transport = transport, user=user, login_user=login_user, today=today)
+            return render_template('team/purchase.html', products = products, farmers = farmers, transport = transport, user = user, login_user = login_user, today = today,grade = grade)
         elif request.form["button"]=="regular":
             farmer = request.form['farmer']
             product = request.form['product']
             quantity = request.form['quantity']
+            grade = request.form['grade']
             details = mongo.db.purchase_details
-            details.insert({"farmer": request.form['farmer'], "product": request.form['product'], "amount": "0",
+            details.regular.insert({"farmer": request.form['farmer'],'type':"regular", "product": request.form['product'], "amount": "0",
             "grade": request.form['grade'], "quantity": request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
             "transport": request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
         
@@ -191,8 +194,8 @@ def dashboard_purchase(user=None):
             # req = urllib2.Request(url, postdata)
             # response = urllib2.urlopen(req)
             # print(response.read())  
-            return render_template('team/purchase.html', products = products, farmers = farmers, transport = transport, user=user, login_user=login_user, today=today)  
-    return render_template('team/purchase.html', products = products, farmers = farmers, transport = transport, user=user, login_user=login_user, today=today)
+            return render_template('team/purchase.html', products = products, farmers = farmers, transport = transport, user=user, login_user=login_user, today=today, grade = grade )  
+    return render_template('team/purchase.html', products = products, farmers = farmers, transport = transport, user=user, login_user=login_user, today = today, grade = grade)
 
 
 @app.route('/farmers_purchase/<user>', methods = ['GET', 'POST'])
@@ -225,6 +228,7 @@ def dashboard_sell(user=None):
         if request.form["button"]=="loose":
             customer = request.form['customer']
             quantity = request.form['quantity']
+            grade = request.form['grade']
             rate = request.form['rate']
             product = request.form['product']
             unit = request.form['unit']
@@ -239,8 +243,8 @@ def dashboard_sell(user=None):
 
             # insert data into collection Sales_details
             sales = mongo.db.sales_details
-            sales.insert({'customer': customer, 'product': product, "received" : "0",
-            "quantity": quantity, "unit": unit, "rate": rate, "amount": amount, "balance": balance,
+            sales.insert({'customer': customer,'type':'loose', 'product': product, "received" : "0",
+            "quantity": quantity,"grade":grade, "unit": unit, "rate": rate, "amount": amount, "balance": balance,
             "date": date, "time": now.strftime("%H:%M")})
 
             # customer Information for
@@ -260,6 +264,7 @@ def dashboard_sell(user=None):
         elif request.form["button"]=="regular":
             customer = request.form['customer']
             quantity = request.form['quantity']
+            grade = request.form['grade']
             rate = request.form['rate']
             product = request.form['product']
             unit = request.form['unit']
@@ -274,8 +279,8 @@ def dashboard_sell(user=None):
 
             # insert data into collection Sales_details
             sales = mongo.db.sales_details
-            sales.insert({'customer': customer, 'product': product, "received" : "0",
-            "quantity": quantity, "unit": unit, "rate": rate, "amount": amount, "balance": balance,
+            sales.regular.insert({'customer': customer, 'product': product, "received" : "0", "type":"regular",
+            "quantity": quantity,"grade":grade, "unit": unit, "rate": rate, "amount": amount, "balance": balance,
             "date": date, "time": now.strftime("%H:%M")})
 
             # customer Information for
@@ -382,7 +387,7 @@ def products():
 
     if request.method == "POST":
         product = mongo.db.products
-        product.insert({"product_name": request.form['product_name'], "type": request.form['type'], "unit": request.form['unit'], "subunit": request.form['sub_unit']})
+        product.insert({"product_name": request.form['product_name'], "type": request.form['type'],"grade":request.form['grade'],"unit": request.form['unit'], "subunit": request.form['sub_unit']})
     return render_template('admin/admin_products.html', p = p)
 
 # ----------------------------------------Team---------------------------------------------- #
