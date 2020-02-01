@@ -52,13 +52,13 @@ $(document).ready(function() {
                     <form>
                         <select class="form-control" style="font-size:20px;margin:10px 0px;margin-right:0px;margin-left:0px;" name="farmer">
                             <option value="" selected="">Farmers List</option>
-                            {% for f in farmers %}
+                            {% for f in farmerloose %}
                             <option value="{{f['first_name']}}">{{f["first_name"]}}</option>
                             {% endfor %}
                         </select>
                         <select class="form-control" style="font-size:20px;margin:10px 0px;" name="product">
                             <option value="" selected="">Products</option>
-                            {% for p in products %}
+                            {% for p in productloose %}
                             <option value="{{p['product_name']}}">{{p['product_name']}}</option>
                             {% endfor %}
                         </select>
@@ -77,7 +77,7 @@ $(document).ready(function() {
                         </select>
                         <select class="form-control" style="font-size:20px;margin:10px 0px;" name="transport">
                             <option value="" selected="">Transport</option>
-                            {% for t in transport %}
+                            {% for t in transportloose %}
                             <option value="{{t['vehicle_name']}}">{{t['vehicle_name']}}</option>
                             {% endfor %}
                         </select>
@@ -90,13 +90,13 @@ $(document).ready(function() {
                     <form>
                         <select class="form-control" style="font-size:20px;margin:10px 0px;margin-right:0px;margin-left:0px;" name="farmer">
                             <option value="farmer" selected="">Farmers List</option>
-                            {% for f in farmers %}
+                            {% for f in farmerregular %}
                             <option value="{{f['first_name']}}">{{f["first_name"]}}</option>
                             {% endfor %}
                         </select>
                         <select class="form-control" style="font-size:20px;margin:10px 0px;" name="product">
                             <option value="product" selected="">Products</option>
-                            {% for p in products %}
+                            {% for p in productregular %}
                             <option value="{{p['product_name']}}">{{p['product_name']}}</option>
                             {% endfor %}
                         </select>
@@ -115,7 +115,7 @@ $(document).ready(function() {
                         </select>
                         <select class="form-control" style="font-size:20px;margin:10px 0px;" name="transport">
                             <option value="transport" selected="">Transport</option>
-                            {% for t in transport %}
+                            {% for t in transportregular %}
                             <option value="{{t['vehicle_name']}}">{{t['vehicle_name']}}</option>
                             {% endfor %}
                         </select>

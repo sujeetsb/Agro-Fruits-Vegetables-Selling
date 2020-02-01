@@ -4,10 +4,9 @@ import urllib # Python URL functions
 import urllib.request as urllib2 # Python URL functions
 from flask_pymongo import PyMongo
 from functools import wraps
-from docx import Document
-
+from docxtpl import DocxTemplate
 import datetime
-import xlsxwriter
+#import xlsxwriter
 
 
 
@@ -24,8 +23,8 @@ mongo = PyMongo(app)
  
 
     
-document = Document()
-# login required decorator
+
+#login required decorator
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -147,10 +146,13 @@ def dashboard_purchase(user=None):
     now = datetime.datetime.now()
     today = now.strftime("%d-%m-%Y")
     login_user = mongo.db.users.find_one({'username': user})
-    products = mongo.db.products.find()
-    farmers = mongo.db.farmers.find()
+    productloose = mongo.db.products.find()
+    productregular = mongo.db.products.find()
+    farmerloose = mongo.db.farmers.find()
+    farmerregular = mongo.db.farmers.find()
     grade = mongo.db.grade.find()
-    transport = mongo.db.transport.find()
+    transportloose = mongo.db.transport.find()
+    transportregular = mongo.db.transport.find()
     if request.method == "POST":
         date = request.form['date']
         date = date.replace('/', '-')
@@ -159,15 +161,16 @@ def dashboard_purchase(user=None):
         day = now.strftime("%d")
         month = now.strftime("%m")
         if request.form["button"]=="loose":
-            farmer = request.form['farmer']
-            product = request.form['product']
+            farmerloose = request.form['farmer']
+            productloose = request.form['product']
             quantity = request.form['quantity']
             grade = request.form['grade']
+            transportloose = request.form['transport']
             # farmer_phone = request.form['farmer_phone']
             details = mongo.db.purchase_details
-            details.insert({"farmer": request.form['farmer'],'type':"loose", "product": request.form['product'], "amount": "0",
+            details.insert({farmerloose: request.form['farmer'],'type':"loose", productloose: request.form['product'], "amount": "0",
             "grade": request.form['grade'], "quantity": request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
-            "transport": request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
+            transportloose : request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
         
             # # Sending SMS to Farmers
             # msg = "Hello "+farmer+", Purchase on "+date+" is:\n Product: "+product+", Tray:"+quantity+"."
@@ -177,16 +180,17 @@ def dashboard_purchase(user=None):
             # req = urllib2.Request(url, postdata)
             # response = urllib2.urlopen(req)
             # print(response.read())
-            return render_template('team/purchase.html', products = products, farmers = farmers, transport = transport, user = user, login_user = login_user, today = today,grade = grade)
+            return render_template('team/purchase.html', productloose = productloose, farmerloose = farmerloose, transportloose = transportloose, user = user, login_user = login_user, today = today,grade = grade)
         elif request.form["button"]=="regular":
-            farmer = request.form['farmer']
-            product = request.form['product']
+            farmerregular = request.form['farmer']
+            productregular = request.form['product']
             quantity = request.form['quantity']
             grade = request.form['grade']
+            transportregular = request.form['transport']
             details = mongo.db.purchase_details
-            details.regular.insert({"farmer": request.form['farmer'],'type':"regular", "product": request.form['product'], "amount": "0",
+            details.regular.insert({farmerregular : request.form['farmer'],'type':"regular", productregular : request.form['product'], "amount": "0",
             "grade": request.form['grade'], "quantity": request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
-            "transport": request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
+            transportregular: request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
         
             # # Sending SMS to Farmers
             # msg = "Hello "+farmer+", Purchase on "+date+" is:\n Product: "+product+", Tray:"+quantity+"."
@@ -196,8 +200,8 @@ def dashboard_purchase(user=None):
             # req = urllib2.Request(url, postdata)
             # response = urllib2.urlopen(req)
             # print(response.read())  
-            return render_template('team/purchase.html', products = products, farmers = farmers, transport = transport, user=user, login_user=login_user, today=today, grade = grade )  
-    return render_template('team/purchase.html', products = products, farmers = farmers, transport = transport, user=user, login_user=login_user, today = today, grade = grade)
+            return render_template('team/purchase.html', productregular = productregular, farmerregular = farmerregular, transportregular = transportregular, user=user, login_user=login_user, today=today, grade = grade )  
+    return render_template('team/purchase.html', productloose = productloose, productregular = productregular, farmerloose = farmerloose, farmerregular = farmerregular,  transportloose = transportloose, transportregular = transportregular, user=user, login_user=login_user, today = today, grade = grade)
 
 
 @app.route('/farmers_purchase/<user>', methods = ['GET', 'POST'])
@@ -221,18 +225,20 @@ def farmers_purchase(user=None):
 def dashboard_sell(user=None):
     now = datetime.datetime.now()
     today = now.strftime("%d-%m-%Y")
-    products = mongo.db.products.find()
-    customers = mongo.db.customers.find()
+    productloose = mongo.db.products.find()
+    productregular = mongo.db.products.find()
+    customerloose = mongo.db.customers.find()
+    customerregular = mongo.db.customers.find()
     login_user = mongo.db.users.find_one({'username': user})
     if request.method == "POST":
         # Information taken from Form
         now = datetime.datetime.now()
         if request.form["button"]=="loose":
-            customer = request.form['customer']
+            customerloose = request.form['customer']
             quantity = request.form['quantity']
             grade = request.form['grade']
             rate = request.form['rate']
-            product = request.form['product']
+            productloose = request.form['product']
             unit = request.form['unit']
             date = request.form['date']
             date = date.replace('/',"-")
@@ -245,7 +251,7 @@ def dashboard_sell(user=None):
 
             # insert data into collection Sales_details
             sales = mongo.db.sales_details
-            sales.insert({'customer': customer,'type':'loose', 'product': product, "received" : "0",
+            sales.insert({'customer': customerloose,'type':'loose', 'product': productloose, "received" : "0",
             "quantity": quantity,"grade":grade, "unit": unit, "rate": rate, "amount": amount, "balance": balance,
             "date": date, "time": now.strftime("%H:%M")})
 
@@ -262,13 +268,13 @@ def dashboard_sell(user=None):
             # req = urllib2.Request(url, postdata)
             # response = urllib2.urlopen(req)
             # print(response.read())
-            return render_template('team/sell.html', products = products, customers = customers, user=user, login_user=login_user, today=today)
+            return render_template('team/sell.html', productloose = productloose, customerloose = customerloose , user=user, login_user=login_user, today=today)
         elif request.form["button"]=="regular":
-            customer = request.form['customer']
+            customerregular = request.form['customer']
             quantity = request.form['quantity']
             grade = request.form['grade']
             rate = request.form['rate']
-            product = request.form['product']
+            productregular = request.form['product']
             unit = request.form['unit']
             date = request.form['date']
             date = date.replace('/',"-")
@@ -281,7 +287,7 @@ def dashboard_sell(user=None):
 
             # insert data into collection Sales_details
             sales = mongo.db.sales_details
-            sales.regular.insert({'customer': customer, 'product': product, "received" : "0", "type":"regular",
+            sales.regular.insert({'customer': customerregular, 'product': productregular, "received" : "0", "type":"regular",
             "quantity": quantity,"grade":grade, "unit": unit, "rate": rate, "amount": amount, "balance": balance,
             "date": date, "time": now.strftime("%H:%M")})
 
@@ -298,8 +304,8 @@ def dashboard_sell(user=None):
             # req = urllib2.Request(url, postdata)
             # response = urllib2.urlopen(req)
             # print(response.read())
-            return render_template('team/sell.html', products = products, customers = customers, user=user, login_user=login_user, today=today)
-    return render_template('team/sell.html', products = products, customers = customers, user=user, login_user=login_user, today=today)
+            return render_template('team/sell.html', productregular = productregular, customerregular = customersregular, user=user, login_user=login_user, today=today)
+    return render_template('team/sell.html',productloose=productloose, productregular = productregular, customerloose = customerloose, customerregular = customerregular, user=user, login_user=login_user, today=today)
 
 
 @app.route('/profile/<user>', methods=['GET', 'POST'])
@@ -611,10 +617,11 @@ def farmer_ledger():
 def document(cust, d1, d2):
     details = mongo.db.sales_details.find({'date':{ '$gte' : d1, '$lte' : d2 }, "customer": cust})
     cust_details = mongo.db.customers.find_one({'nick_name': cust})
-    table = document.add_table(rows=5, cols=3)
     farmers = mongo.db.farmers.find()
     customers = mongo.db.customers.find()
-    # Create a workbook and add a worksheet.
+    
+    # Create a table.
+    table = document.add_table(rows=5, cols=3)
     workbook = xlsxwriter.Workbook('static/excels/Expenses02.xlsx')
     worksheet = workbook.add_worksheet()
 
