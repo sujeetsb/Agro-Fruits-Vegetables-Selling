@@ -657,11 +657,12 @@ def document(cust, d1, d2):
     worksheet.write(row, 3, 'Remaining Balance',       bold)
     worksheet.write(row, 8, int(cust_details['balance']), bold)
     workbook.close()
+    doc.save("generated")
     return render_template('admin/admin_ledger_report.html', customers=customers, farmers = farmers)
 
 @app.route('/LedgerReport')
-def get_excel():
-    return send_file('static/excels/Expenses02.xlsx', attachment_filename="LedgerReport.xlsx")
+def get_doc():
+    return send_file('static/excels/Expenses02.docx', attachment_filename="LedgerReport.docx")
     return redirect(url_for('customer_ledger'))
 
 

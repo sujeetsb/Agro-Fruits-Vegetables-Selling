@@ -4,14 +4,65 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
-<script>
-$(document).ready(function() {
-    $('#datePicker')
-        .datepicker({
-            format: 'dd/mm/yyyy'
-        })
-});
-</script>
+
+<style>
+section {
+    margin-top: -20px;
+    padding-top: 4rem;
+    padding-bottom: 5rem;
+    background-color: #f2f4fa;
+}
+.wrap {
+    display: flex;
+    background-color: #39ff14;
+    padding: 1rem 1rem 1rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 7px 7px 30px -5px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.wrap:hover {
+    color: white;
+}
+
+.ico-wrap {
+    margin: auto;
+}
+
+.mbr-iconfont {
+    font-size: 4.5rem !important;
+    color: #000000;
+    margin: 1rem;
+    padding-right: 1rem;
+}
+.vcenter {
+    margin: auto;
+}
+
+.mbr-section-title3 {
+    text-align: left;
+}
+h2 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.display-5 {
+    font-family: 'Source Sans Pro',sans-serif;
+    font-size: 1.4rem;
+}
+.mbr-bold {
+    font-weight: 700;
+}
+
+p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.display-6 {
+    font-family: 'Source Sans Pro',sans-serif;
+    font-size: 1rem
+}
+</style>
 
 <div class="breadcrumb-agile">
     <ol class="breadcrumb">
@@ -22,161 +73,53 @@ $(document).ready(function() {
     </ol>
 </div>
 
-
-<div class="serives-agile py-5" id="services">
-    <div class="container py-xl-5 py-lg-3">
-        <div class="row support-bottom text-center">
-            <div class="col-md-4 services-w3ls-grid">
-                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                <a href="/admin_sell"><h4 class="text-white text-uppercase mt-md-5 mt-4 mb-3">Sell</h4></a>
-                <p>Our Sell</p>
-            </div>
-            <div class="col-md-4 services-w3ls-grid my-md-0 my-4">
-                <i class="fa fa-cubes" aria-hidden="true"></i>
-                <a href="/admin_purchase"><h4 class="text-white text-uppercase mt-md-5 mt-4 mb-3"> Purchase</h4></a>
-                <p>Our Purchase</p>
-            </div>
-            <div class="col-md-4 services-w3ls-grid">
-                <i class="fa fa-archive" aria-hidden="true"></i>
-                <a href="/admin_stock"><h4 class="text-white text-uppercase mt-md-5 mt-4 mb-3">Total Stock</h4></a>
-                <p>Our Stock</p>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- <div class="row address-row">
-    <div class="col-xs-12 col-md-2"></div>
-    <div class="col-xs-12 col-md-8">
-        <div class="container text-center">
-            <div>
-                <form action="" method="POST">
-                    <input type="text" id="datePicker" name="date" value="{{date}}" style="font-size:18px; text-align:center" />
-                    <button type="submit" class="btn btn-info" style="font-size:16px; margin-top: -6px">GO</button>
-                </form>
-            </div>
-            
-                <div>
-                    <h3 class="text-center" style="color:rgb(8,3,3);font-size:40px;"><a href="admin_purchase.html">Purchase</a></h3>
-                    <div class="well" style="height:auto;">
-                        <div class="table-responsive show">
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Farmer</th>
-                                        <th>Product</th>
-                                        <th>Grade</th>
-                                        <th>Quantity</th>
-                                        <th>Rate</th>
-                                        <th>Total Amount</th>
-                                        <th>Transport</th>
-                                        <th>Time</th>
-                                        <th>Edit</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for i in details_p %}
-                                    <tr>
-                                        <td>{{i['farmer']}}</td>
-                                        <td>{{i['product']}}</td>
-                                        <td>{{i['grade']}}</td>
-                                        <td>{{i['quantity'] +" "+i['unit']}}</td>
-                                        <td>{{i['rate']}}</td>
-                                        <td>{{i['balance']}}</td>
-                                        <td>{{i['transport']}}</td>
-                                        <td>{{i['time']}}</td>
-                                        <td><a href="/edit/{{i['time']}}/{{user}}">Edit</a></td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+<section>
+    <div class="container">        
+            <div class="row mbr-justify-content-center">    
+                <div class="col-lg-4 col-xs-12">
+                    <a href="/admin_purchase">
+                        <div class="wrap">
+                            <div class="ico-wrap">
+                                <span class="mbr-iconfont fa-cart-plus fa"></span>
+                            </div>
+                            <div class="text-wrap vcenter">
+                                <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">Total Purchase</h2>
+                                <h3 class="mbr-fonts-style  mbr-bold mbr-section-title3 display-6">Products: 1</h3>
+                                <h3 class="mbr-fonts-style  mbr-bold display-6">Boxes: 5</h3>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-                <div>
-                    <h3 class="text-center" style="color:rgb(8,3,3);font-size:40px;"><a href="admin_sell.html">Sell</a></h3>
-                    <div class="well" style="height:auto;">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th>Customer</th>
-                                        <th>Product</th>
-                                        <th>Unit</th>
-                                        <th>Quantity</th>
-                                        <th>Rate</th>
-                                        <th>Amount</th>
-                                        <th>Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for i in details_s %}
-                                    <tr>
-                                        <td>{{i['customer']}}</td>
-                                        <td>{{i['product']}}</td>
-                                        {% if i['product'] == "Strawberry" %}
-                                        <td>{{i['unit'] + " Box"}}</td>
-                                        <td>{{i['quantity'] + " Tray"}}</td>
-                                        {% else %}
-                                        <td>{{i['unit'] + " Carrots"}}</td>
-                                        <td>{{i['quantity'] + " Kg"}}</td>
-                                        {% endif %}
-                                        <td>{{i['rate']}}</td>
-                                        <td>{{i['amount']}}</td>
-                                        <td>{{i['time']}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                <div class="col-lg-4 col-xs-12">
+                    <a href="/admin_sell">
+                        <div class="wrap">
+                            <div class="ico-wrap">
+                                <span class="mbr-iconfont fa-cart-arrow-down fa"></span>
+                            </div>
+                            <div class="text-wrap vcenter">
+                                <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">Total Sell</h2>
+                                <h3 class="mbr-fonts-style text1 mbr-text display-6">Products: 1</h3>
+                                <h3 class="mbr-fonts-style text1 mbr-text display-6">Boxes: 4</h3>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-                <div>
-                    <h3 class="text-center" style="color:rgb(8,3,3);font-size:40px;"><a href="admin_stock.html">Total Stock</a></h3>
-                    <div class="well" style="height:auto;">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th>Customer</th>
-                                        <th>Product</th>
-                                        <th>Unit</th>
-                                        <th>Quantity</th>
-                                        <th>Rate</th>
-                                        <th>Amount</th>
-                                        <th>Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for i in details_s %}
-                                    <tr>
-                                        <td>{{i['customer']}}</td>
-                                        <td>{{i['product']}}</td>
-                                        {% if i['product'] == "Strawberry" %}
-                                        <td>{{i['unit'] + " Box"}}</td>
-                                        <td>{{i['quantity'] + " Tray"}}</td>
-                                        {% else %}
-                                        <td>{{i['unit'] + " Carrots"}}</td>
-                                        <td>{{i['quantity'] + " Kg"}}</td>
-                                        {% endif %}
-                                        <td>{{i['rate']}}</td>
-                                        <td>{{i['amount']}}</td>
-                                        <td>{{i['time']}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                <div class="col-lg-4 col-xs-12">
+                    <a href="/admin_stock">
+                        <div class="wrap">
+                            <div class="ico-wrap">
+                                <span class="mbr-iconfont fa-cart-arrow-down fa"></span>
+                            </div>
+                            <div class="text-wrap vcenter">
+                                <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">Available Stock</h2>
+                                <h3 class="mbr-fonts-style text1 mbr-text display-6">Products: 1</h3>
+                                <h3 class="mbr-fonts-style text1 mbr-text display-6">Boxes: 1</h3>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-    <div class="col-xs-12 col-md-2"></div>
-</div> -->
-<!-- </div> -->
-
-
-
-
-
+                    </a>
+                </div>                
+            </div>    
+    </div>    
+</section>
 
 {% endblock %}
