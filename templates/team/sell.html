@@ -49,8 +49,8 @@ $(document).ready(function() {
                     </ul>
                     <div class="tab-content " id="myTabContent">
                         <div class="tab-pane fade show active" id="loose" role="tabpanel" aria-labelledby="looseTab">    
-                            <div class="address-grid p-sm-5 p-4">
-                            <form>      
+                            <div class="address-grid p-sm-5 p-4" >
+                            <form >      
                                 <select 
                                     class="form-control" style="font-size:20px;margin:10px 0px;margin-right:0px;margin-left:0px;" name="customer">
                                     <option value="" selected="">Customers List</option>
@@ -70,9 +70,9 @@ $(document).ready(function() {
                                 <select
                                     class="form-control" style="font-size:20px;margin:10px 0px;" name="grade">
                                     <option value="" selected="">Grade Level</option>
-                                    {% for i in products %}
-                                    <option value="{{i['product_grade']}}">{{i['product_grade']}}</option>
-                                    {% endfor %}
+                                    <option value="Grade 1">Grade 1 </option>
+                                    <option value="Grade 2">Grade 2</option>
+                                    <option value="Grade 3">Grade 3</option>
                                 </select>
                                 <input class="form-control" type="text" placeholder="Rate" style="margin:5px 0px;margin-top:-5px;" name="rate">
                                 <button name="button" value="loose" class="btn btn-info btn-block" type="submit">Submit</button>
@@ -101,9 +101,9 @@ $(document).ready(function() {
                                 <select
                                     class="form-control" style="font-size:20px;margin:10px 0px;" name="grade">
                                     <option value="" selected="">Grade Level</option>
-                                    {% for i in products %}
-                                    <option value="{{i['product_grade']}}">{{i['product_grade']}}</option>
-                                    {% endfor %}
+                                    <option value="Grade 1">Grade 1 </option>
+                                    <option value="Grade 2">Grade 2</option>
+                                    <option value="Grade 3">Grade 3</option>
                                 </select>
                                 <input class="form-control" type="text" placeholder="Rate" style="margin:5px 0px;margin-top:-5px;" name="rate">
                                 <button name="button" value="regular" class="btn btn-info btn-block" type="submit">Submit</button>

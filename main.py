@@ -4,6 +4,8 @@ import urllib # Python URL functions
 import urllib.request as urllib2 # Python URL functions
 from flask_pymongo import PyMongo
 from functools import wraps
+from docx import Document
+
 import datetime
 import xlsxwriter
 
@@ -22,7 +24,7 @@ mongo = PyMongo(app)
  
 
     
-
+document = Document()
 # login required decorator
 def login_required(f):
     @wraps(f)
@@ -518,6 +520,80 @@ def admin_purchase(user=None):
         
     return render_template('admin/admin_purchase.html', details_p = details_p, date=date, user=user)
     # return render_template('admin/admin_purchase.html')    
+
+
+
+
+
+# ----------------------------------------Farmer Ledger---------------------------------------------- #
+# @app.route('/farmer_ledger', methods=["GET", "POST"])
+# @login_required
+# def farmer_ledger():
+#     farmers = mongo.db.farmers.find()
+#     if request.method == "POST":
+#         farmer = request.form['farmer']
+#         fromdate = request.form['fromdate']
+#         todate = request.form['todate']
+#         details = mongo.db.purchase_details.find({'date':{ '$gte' : fromdate, '$lte' : todate }, "farmer": farmer})
+#         return render_template('admin/admin_ledger_report.html', details=details, farmers=farmers, farmer=farmer)
+    
+#     return render_template('admin/admin_ledger_report.html', farmers=farmers)
+
+
+
+# def excel(cust, d1, d2):
+#     details = mongo.db.sales_details.find({'date':{ '$gte' : d1, '$lte' : d2 }, "customer": cust})
+#     cust_details = mongo.db.customers.find_one({'nick_name': cust})
+#     row = 5
+#     col = 3
+#     farmers = mongo.db.farmers.find()
+#     customers = mongo.db.customers.find()
+#     # Create a workbook and add a worksheet.
+#     workbook = xlsxwriter.Workbook('static/excels/Expenses02.xlsx')
+#     worksheet = workbook.add_worksheet()
+
+#     # Add a bold format to use to highlight cells.
+#     bold = workbook.add_format({'bold': True, 'font_size': 16})
+    
+
+#     # Add a number format for cells with money.
+
+#     # Write some data headers.
+#     worksheet.write('D2', 'Ledger Report of '+ cust_details['nick_name'] , bold)
+#     worksheet.write('D5', 'Date', bold)
+#     worksheet.write('E5', 'ITEM', bold)
+#     worksheet.write('F5', 'Unit', bold)
+#     worksheet.write('G5', 'Quantity', bold)
+#     worksheet.write('H5', 'Rate', bold)
+#     worksheet.write('I5', 'Amount', bold)
+#     worksheet.write('J5', 'Received', bold)
+    
+
+
+#     # Iterate over the data and write it out row by row.
+#     for i in details:
+#         worksheet.write(row, col, i['date'])
+#         worksheet.write(row, col + 1, i['product'])
+#         worksheet.write(row, col + 2, i['unit'])
+#         worksheet.write(row, col + 3, int(i['quantity']))
+#         worksheet.write(row, col + 4, int(i['rate']))
+#         worksheet.write(row, col + 5, int(i['amount']))
+#         worksheet.write(row, col + 6, int(i['received']))
+#         row += 1
+
+#     worksheet.write(row, 3, 'Remaining Balance',       bold)
+#     worksheet.write(row, 8, int(cust_details['balance']), bold)
+#     workbook.close()
+#     return render_template('admin/admin_ledger_report.html', customers=customers, farmers = farmers)
+
+# @app.route('/LedgerReport')
+# def get_excel():
+#     return send_file('static/excels/Expenses02.xlsx', attachment_filename="LedgerReport.xlsx")
+#     return redirect(url_for('customer_ledger'))
+
+
+
+
 # ----------------------------------------Farmer Ledger---------------------------------------------- #
 @app.route('/farmer_ledger', methods=["GET", "POST"])
 @login_required
@@ -532,13 +608,10 @@ def farmer_ledger():
     
     return render_template('admin/admin_ledger_report.html', farmers=farmers)
 
-
-
-def excel(cust, d1, d2):
+def document(cust, d1, d2):
     details = mongo.db.sales_details.find({'date':{ '$gte' : d1, '$lte' : d2 }, "customer": cust})
     cust_details = mongo.db.customers.find_one({'nick_name': cust})
-    row = 5
-    col = 3
+    table = document.add_table(rows=5, cols=3)
     farmers = mongo.db.farmers.find()
     customers = mongo.db.customers.find()
     # Create a workbook and add a worksheet.
@@ -583,6 +656,8 @@ def excel(cust, d1, d2):
 def get_excel():
     return send_file('static/excels/Expenses02.xlsx', attachment_filename="LedgerReport.xlsx")
     return redirect(url_for('customer_ledger'))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
