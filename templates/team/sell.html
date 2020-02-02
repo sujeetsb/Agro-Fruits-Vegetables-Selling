@@ -6,16 +6,37 @@
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js">
-</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+
 <script>
-$(document).ready(function() {
-    $('#datePicker')
-        .datepicker({
-            format: 'dd/mm/yyyy'
-        })
-});
+    $(document).ready(function() {
+        $('#datePicker')
+            .datepicker({
+                format: 'dd/mm/yyyy'
+            })
+    });
 </script>
+
+<script>
+
+
+$(function() {
+    $("#addLoose").click(function(e) {
+        e.preventDefault();
+        $("#looseQuantity").append('<div><hr style="border: 0.5px solid; margin:-2px 0px"><select class="form-control" style="font-size:20px;margin:10px 0px;" name="grade"><option value="" selected="">Grade Level</option><option value="Grade 1">Grade 1 </option><option value="Grade 2">Grade 2</option><option value="Grade 3">Grade 3</option></select><input class="form-control" type="text" placeholder="No of Trays / No of Kg" style="margin:5px 0px;margin-top:-5px;" name="quantity"><input class="form-control" type="text" placeholder="Rate" style="margin:5px 0px;margin-top:-5px;" name="rate"></div>');
+    });
+    });
+</script>
+
+<script>
+    $(function() {
+    $("#addRegular").click(function(e) {
+        e.preventDefault();
+        $("#regularQuantity").append('<div><hr style="border: 0.5px solid; margin:-2px 0px"><select class="form-control" style="font-size:20px;margin:10px 0px;" name="grade"><option value="" selected="">Grade Level</option><option value="Grade 1">Grade 1 </option><option value="Grade 2">Grade 2</option><option value="Grade 3">Grade 3</option></select><input class="form-control" type="text" placeholder="No of Trays / No of Kg" style="margin:5px 0px;margin-top:-5px;" name="quantity"><input class="form-control" type="text" placeholder="Rate" style="margin:5px 0px;margin-top:-5px;" name="rate"></div>');
+    });
+    });
+</script>
+
 <div class="breadcrumb-agile">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -32,7 +53,7 @@ $(document).ready(function() {
     </div>
     <div class="main-title text-center">
         <h3 class="tittle text-dark font-weight-bold">Distribution Section</h3>
-        <p class="sub-tittle mt-2">Enter Customer Details And Order Details To Submit This Form</p>
+        <p class="sub-tittle mt-2">Enter Customer Details And Order Details To Submit This Order</p>
     </div>
 <div class="col-md-12">
     <div class="row address-row">
@@ -41,15 +62,15 @@ $(document).ready(function() {
                 <div class="wow agile fadeInLeft animated mt-lg-0 mt-5" data-wow-delay=".5s">
                     <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="looseTab" data-toggle="tab" href="#loose" role="tab" aria-controls="loose" aria-selected="true">Loose</a>
+                            <a class="nav-link" id="looseTab" data-toggle="tab" href="#loose" role="tab" aria-controls="loose" aria-selected="true">Loose</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="regularTab" data-toggle="tab" href="#regular" role="tab" aria-controls="regular" aria-selected="false">Regular</a>
+                            <a class="nav-link active" id="regularTab" data-toggle="tab" href="#regular" role="tab" aria-controls="regular" aria-selected="false">Regular</a>
                         </li>
                     </ul>
                     <div class="tab-content " id="myTabContent">
                         <div class="tab-pane fade show active" id="loose" role="tabpanel" aria-labelledby="looseTab">    
-                            <div class="address-grid p-sm-5 p-4" >
+                            <div class="address-grid p-sm-4 p-2" >
                             <form >      
                                 <select 
                                     class="form-control" style="font-size:20px;margin:10px 0px;margin-right:0px;margin-left:0px;" name="customer">
@@ -65,22 +86,21 @@ $(document).ready(function() {
                                     <option value="{{i['product_name']}}">{{i['product_name']}}</option>
                                     {% endfor %}
                                 </select>
-                                <input class="form-control" type="text" placeholder="No of Box / No of Carrots" style="margin:5px 0px;margin-top:-5px;" name="unit">
-                                <input class="form-control" type="text" placeholder="No of Trays / No of Kg" style="margin:5px 0px;margin-top:-5px;" name="quantity">
-                                <select
-                                    class="form-control" style="font-size:20px;margin:10px 0px;" name="grade">
-                                    <option value="" selected="">Grade Level</option>
-                                    <option value="Grade 1">Grade 1 </option>
-                                    <option value="Grade 2">Grade 2</option>
-                                    <option value="Grade 3">Grade 3</option>
-                                </select>
-                                <input class="form-control" type="text" placeholder="Rate" style="margin:5px 0px;margin-top:-5px;" name="rate">
+                                <div style="display: inline-flex; width: 100%;">
+                                    <input class="form-control" type="text" placeholder="No of Box / No of Carrots" style="margin:5px 0px;margin-top:-5px;width: 90%;" name="unit">
+                                    <button style="border-radius: 50%; width: 10%; margin: 10px 0px 10px 8px;" class="btn btn-info" id="addLoose">
+                                        <i class="fa-plus fa"></i>
+                                    </button>
+                                </div>
+                                <div id="looseQuantity">
+
+                                </div>
                                 <button name="button" value="loose" class="btn btn-info btn-block" type="submit">Submit</button>
                             </form>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="regular" role="tabpanel" aria-labelledby="regularTab">    
-                            <div class="address-grid p-sm-5 p-4">
+                            <div class="address-grid p-sm-4 p-2">
                             <form>
                                 <select 
                                     class="form-control" style="font-size:20px;margin:10px 0px;margin-right:0px;margin-left:0px;" name="customer">
@@ -96,16 +116,15 @@ $(document).ready(function() {
                                     <option value="{{i['product_name']}}">{{i['product_name']}}</option>
                                     {% endfor %}
                                 </select>
-                                <input class="form-control" type="text" placeholder="No of Box / No of Carrots" style="margin:5px 0px;margin-top:-5px;" name="unit">
-                                <input class="form-control" type="text" placeholder="No of Trays / No of Kg" style="margin:5px 0px;margin-top:-5px;" name="quantity">
-                                <select
-                                    class="form-control" style="font-size:20px;margin:10px 0px;" name="grade">
-                                    <option value="" selected="">Grade Level</option>
-                                    <option value="Grade 1">Grade 1 </option>
-                                    <option value="Grade 2">Grade 2</option>
-                                    <option value="Grade 3">Grade 3</option>
-                                </select>
-                                <input class="form-control" type="text" placeholder="Rate" style="margin:5px 0px;margin-top:-5px;" name="rate">
+                                <div style="display: inline-flex; width: 100%;">
+                                    <input class="form-control" type="text" placeholder="No of Box / No of Carrots" style="margin:5px 0px;margin-top:-5px;width: 90%;" name="unit">
+                                    <button style="border-radius: 50%; width: 10%; margin: 10px 0px 10px 8px;" class="btn btn-info" id="addRegular">
+                                        <i class="fa-plus fa"></i>
+                                    </button>
+                                </div>
+                                <div id="regularQuantity">
+
+                                </div>
                                 <button name="button" value="regular" class="btn btn-info btn-block" type="submit">Submit</button>
                              </form>
                             </div>
