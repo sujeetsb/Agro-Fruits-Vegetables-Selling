@@ -6,7 +6,12 @@ from flask_pymongo import PyMongo
 from functools import wraps
 from docxtpl import DocxTemplate
 import datetime
-#import xlsxwriter
+from reportlab.pdfgen import canvas
+# from openpyxl import Workbook
+# import xlsxwriter
+# import docx
+# import os
+# import csv
 
 
 
@@ -42,45 +47,7 @@ def index():
     return render_template('index.html')
 
 #--------------------------------------------- REGISTER PAGE ------------------------------------------------
-# @app.route('/register', methods = ['GET','POST'])
-# def register():
-#    return render_template('register.html')
-# class Register(form):
-# 	username = TextField('Username', [validators.Length(min=4, max=20)])
-# 	email = TextField('Email Id', [validators.Length(min=10, max=50)])
-# 	password = PasswordField('Password', [validators.Required(),
-# 											validators.EqualTo('confirm', message ="Passwords must match." )])
-# 	confirm = PasswordField('Repeat Password')
-# 	mob_no = TextField('Mobile No.',[validators.length(min=10, max=10)])
-# 	accept_tos =BooleanField("I accpet the <a href="">Terms & Conditions</a>.", [validators.Required()]) 
 
-# @app.route('/register/', methods=['GET','POST'])
-# def register():
-# 	try:
-# 		form = Register(request.form)
-
-# 		if request.method == "POST" and form.validate():
-# 			username = form.username.data 
-# 			email = form.email.data 
-
-# 			password = (form.password.data) 
-# 			mob_no = form.mob_no.data
-# 			users = mongo.db.new_users
-# 			existing_user = users.find_one({'username' : username})
-
-# 			if existing_user is None:
-# 				users.insert({'username': username, 'email': email,'password': password, 'mob_no': mob_no})
-# 				flash("Thanks for Register")
-# 				session['logged_in'] = True 
-# 				session['username'] = username
-# 				return redirect(url_for('login'))
-# 			flash("User already exists. Try again")
-# 			return render_template("register.html", form=form)
-
-# 		return render_template("register.html", form=form)
-
-# 	except Exception as e:
-# 		return(str(e))
 
 
 
@@ -163,43 +130,29 @@ def dashboard_purchase(user=None):
         if request.form["button"]=="loose":
             farmerloose = request.form['farmer']
             productloose = request.form['product']
-            quantity = request.form['quantity']
+            quantityloose = request.form['quantity']
             grade = request.form['grade']
             transportloose = request.form['transport']
             # farmer_phone = request.form['farmer_phone']
             details = mongo.db.purchase_details
             details.insert({farmerloose: request.form['farmer'],'type':"loose", productloose: request.form['product'], "amount": "0",
-            "grade": request.form['grade'], "quantity": request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
+            "grade": request.form['grade'], quantityloose: request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
             transportloose : request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
         
-            # # Sending SMS to Farmers
-            # msg = "Hello "+farmer+", Purchase on "+date+" is:\n Product: "+product+", Tray:"+quantity+"."
-            # values = {'authkey':'245023APhpm41yHx5bd5bcca', 'mobiles':farmer_phone, 'message':msg, 'sender':'AVNGRP', 'route':'4'}
-            # url = "http://api.msg91.com/api/sendhttp.php"
-            # postdata = urllib.urlencode(values)
-            # req = urllib2.Request(url, postdata)
-            # response = urllib2.urlopen(req)
-            # print(response.read())
+           
             return render_template('team/purchase.html', productloose = productloose, farmerloose = farmerloose, transportloose = transportloose, user = user, login_user = login_user, today = today,grade = grade)
         elif request.form["button"]=="regular":
             farmerregular = request.form['farmer']
             productregular = request.form['product']
-            quantity = request.form['quantity']
+            quantityregular = request.form['quantity']
             grade = request.form['grade']
             transportregular = request.form['transport']
             details = mongo.db.purchase_details
             details.regular.insert({farmerregular : request.form['farmer'],'type':"regular", productregular : request.form['product'], "amount": "0",
-            "grade": request.form['grade'], "quantity": request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
+            "grade": request.form['grade'], quantityregular: request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
             transportregular: request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
         
-            # # Sending SMS to Farmers
-            # msg = "Hello "+farmer+", Purchase on "+date+" is:\n Product: "+product+", Tray:"+quantity+"."
-            # values = {'authkey':'245023APhpm41yHx5bd5bcca', 'mobiles':farmer_phone, 'message':msg, 'sender':'AVNGRP', 'route':'4'}
-            # url = "http://api.msg91.com/api/sendhttp.php"
-            # postdata = urllib.urlencode(values)
-            # req = urllib2.Request(url, postdata)
-            # response = urllib2.urlopen(req)
-            # print(response.read())  
+          
             return render_template('team/purchase.html', productregular = productregular, farmerregular = farmerregular, transportregular = transportregular, user=user, login_user=login_user, today=today, grade = grade )  
     return render_template('team/purchase.html', productloose = productloose, productregular = productregular, farmerloose = farmerloose, farmerregular = farmerregular,  transportloose = transportloose, transportregular = transportregular, user=user, login_user=login_user, today = today, grade = grade)
 
@@ -259,15 +212,7 @@ def dashboard_sell(user=None):
             customer_info = mongo.db.customers.find_one({"nick_name": customer}) 
             cust_phone = customer_info['contact']
 		
-            # Create Message for Sending SMS
-		
-            # msg = "Hello "+customer+", Your Order on "+date+" is:\n Product: "+product+", Box: "+unit+", Tray:"+quantity+",\n Rate: "+rate+",\n Total Amount: Rs."+amount+"\n Remaining Balance to Pay: Rs."+balance+"\n - AVANI GROUP."
-            # values = {'authkey':'245023APhpm41yHx5bd5bcca', 'mobiles':cust_phone, 'message':msg, 'sender':'AVNGRP', 'route':'4'}
-            # url = "http://api.msg91.com/api/sendhttp.php"
-            # postdata = urllib.urlencode(values)
-            # req = urllib2.Request(url, postdata)
-            # response = urllib2.urlopen(req)
-            # print(response.read())
+          
             return render_template('team/sell.html', productloose = productloose, customerloose = customerloose , user=user, login_user=login_user, today=today)
         elif request.form["button"]=="regular":
             customerregular = request.form['customer']
@@ -295,15 +240,7 @@ def dashboard_sell(user=None):
             customer_info = mongo.db.customers.find_one({"nick_name": customer}) 
             cust_phone = customer_info['contact']
 		
-            # Create Message for Sending SMS
-		
-            # msg = "Hello "+customer+", Your Order on "+date+" is:\n Product: "+product+", Box: "+unit+", Tray:"+quantity+",\n Rate: "+rate+",\n Total Amount: Rs."+amount+"\n Remaining Balance to Pay: Rs."+balance+"\n - AVANI GROUP."
-            # values = {'authkey':'245023APhpm41yHx5bd5bcca', 'mobiles':cust_phone, 'message':msg, 'sender':'AVNGRP', 'route':'4'}
-            # url = "http://api.msg91.com/api/sendhttp.php"
-            # postdata = urllib.urlencode(values)
-            # req = urllib2.Request(url, postdata)
-            # response = urllib2.urlopen(req)
-            # print(response.read())
+          
             return render_template('team/sell.html', productregular = productregular, customerregular = customersregular, user=user, login_user=login_user, today=today)
     return render_template('team/sell.html',productloose=productloose, productregular = productregular, customerloose = customerloose, customerregular = customerregular, user=user, login_user=login_user, today=today)
 
@@ -313,11 +250,11 @@ def dashboard_sell(user=None):
 def profile(user):
     login_user = mongo.db.users.find_one({'username': user})
     if request.method == "POST":
-        details['full_name'] = request.form['full_name']
-        details['address'] = request.form['address']
-        details['email'] = request.form['email']
-        details['contact'] = request.form['contact']
-        mongo.db.users.save(details)
+        users['full_name'] = request.form['full_name']
+        users['address'] = request.form['address']
+        users['email'] = request.form['email']
+        users['contact'] = request.form['contact']
+        mongo.db.users.save(users)
         return render_template('team/profile.html', user=user, login_user = login_user)
     return render_template('team/profile.html', user=user, login_user = login_user)
 
@@ -485,9 +422,16 @@ def customer_ledger():
         customer = request.form['customer']
         fromdate = request.form['fromdate']
         todate = request.form['todate']
-        excel(customer, fromdate,todate)
         details = mongo.db.sales_details.find({'date':{ '$gte' : fromdate, '$lte' : todate }, "customer": customer})
-        excel(customer, fromdate,todate)
+        tpl = DocxTemplate('avaneesale.docx')
+        context = {
+            'items':details,
+            'customer':customer,
+            'fromdate':fromdate,
+            'todate':todate
+        } 
+        tpl.render(context)
+        tpl.save('demosale.docx')
         return render_template('admin/admin_ledger_report.html', details=details, customers=customers, customer=customer)
     
     return render_template('admin/admin_ledger_report.html', customers=customers)
@@ -531,76 +475,7 @@ def admin_purchase(user=None):
 
 
 
-# ----------------------------------------Farmer Ledger---------------------------------------------- #
-# @app.route('/farmer_ledger', methods=["GET", "POST"])
-# @login_required
-# def farmer_ledger():
-#     farmers = mongo.db.farmers.find()
-#     if request.method == "POST":
-#         farmer = request.form['farmer']
-#         fromdate = request.form['fromdate']
-#         todate = request.form['todate']
-#         details = mongo.db.purchase_details.find({'date':{ '$gte' : fromdate, '$lte' : todate }, "farmer": farmer})
-#         return render_template('admin/admin_ledger_report.html', details=details, farmers=farmers, farmer=farmer)
-    
-#     return render_template('admin/admin_ledger_report.html', farmers=farmers)
-
-
-
-# def excel(cust, d1, d2):
-#     details = mongo.db.sales_details.find({'date':{ '$gte' : d1, '$lte' : d2 }, "customer": cust})
-#     cust_details = mongo.db.customers.find_one({'nick_name': cust})
-#     row = 5
-#     col = 3
-#     farmers = mongo.db.farmers.find()
-#     customers = mongo.db.customers.find()
-#     # Create a workbook and add a worksheet.
-#     workbook = xlsxwriter.Workbook('static/excels/Expenses02.xlsx')
-#     worksheet = workbook.add_worksheet()
-
-#     # Add a bold format to use to highlight cells.
-#     bold = workbook.add_format({'bold': True, 'font_size': 16})
-    
-
-#     # Add a number format for cells with money.
-
-#     # Write some data headers.
-#     worksheet.write('D2', 'Ledger Report of '+ cust_details['nick_name'] , bold)
-#     worksheet.write('D5', 'Date', bold)
-#     worksheet.write('E5', 'ITEM', bold)
-#     worksheet.write('F5', 'Unit', bold)
-#     worksheet.write('G5', 'Quantity', bold)
-#     worksheet.write('H5', 'Rate', bold)
-#     worksheet.write('I5', 'Amount', bold)
-#     worksheet.write('J5', 'Received', bold)
-    
-
-
-#     # Iterate over the data and write it out row by row.
-#     for i in details:
-#         worksheet.write(row, col, i['date'])
-#         worksheet.write(row, col + 1, i['product'])
-#         worksheet.write(row, col + 2, i['unit'])
-#         worksheet.write(row, col + 3, int(i['quantity']))
-#         worksheet.write(row, col + 4, int(i['rate']))
-#         worksheet.write(row, col + 5, int(i['amount']))
-#         worksheet.write(row, col + 6, int(i['received']))
-#         row += 1
-
-#     worksheet.write(row, 3, 'Remaining Balance',       bold)
-#     worksheet.write(row, 8, int(cust_details['balance']), bold)
-#     workbook.close()
-#     return render_template('admin/admin_ledger_report.html', customers=customers, farmers = farmers)
-
-# @app.route('/LedgerReport')
-# def get_excel():
-#     return send_file('static/excels/Expenses02.xlsx', attachment_filename="LedgerReport.xlsx")
-#     return redirect(url_for('customer_ledger'))
-
-
-
-
-# ----------------------------------------Farmer Ledger---------------------------------------------- #
+# # ----------------------------------------Farmer Ledger---------------------------------------------- #
 @app.route('/farmer_ledger', methods=["GET", "POST"])
 @login_required
 def farmer_ledger():
@@ -610,61 +485,28 @@ def farmer_ledger():
         fromdate = request.form['fromdate']
         todate = request.form['todate']
         details = mongo.db.purchase_details.find({'date':{ '$gte' : fromdate, '$lte' : todate }, "farmer": farmer})
+        tpl = DocxTemplate('avanee.docx')
+        context = {
+            'items':details,
+            'farmer':farmer,
+            'fromdate':fromdate,
+            'todate':todate
+        } 
+        tpl.render(context)
+        tpl.save('demo.docx')
         return render_template('admin/admin_ledger_report.html', details=details, farmers=farmers, farmer=farmer)
     
     return render_template('admin/admin_ledger_report.html', farmers=farmers)
 
-def document(cust, d1, d2):
-    details = mongo.db.sales_details.find({'date':{ '$gte' : d1, '$lte' : d2 }, "customer": cust})
-    cust_details = mongo.db.customers.find_one({'nick_name': cust})
-    farmers = mongo.db.farmers.find()
-    customers = mongo.db.customers.find()
-    
-    # Create a table.
-    table = document.add_table(rows=5, cols=3)
-    workbook = xlsxwriter.Workbook('static/excels/Expenses02.xlsx')
-    worksheet = workbook.add_worksheet()
-
-    # Add a bold format to use to highlight cells.
-    bold = workbook.add_format({'bold': True, 'font_size': 16})
-    
-
-    # Add a number format for cells with money.
-
-    # Write some data headers.
-    worksheet.write('D2', 'Ledger Report of '+ cust_details['nick_name'] , bold)
-    worksheet.write('D5', 'Date', bold)
-    worksheet.write('E5', 'ITEM', bold)
-    worksheet.write('F5', 'Unit', bold)
-    worksheet.write('G5', 'Quantity', bold)
-    worksheet.write('H5', 'Rate', bold)
-    worksheet.write('I5', 'Amount', bold)
-    worksheet.write('J5', 'Received', bold)
-    
 
 
-    # Iterate over the data and write it out row by row.
-    for i in details:
-        worksheet.write(row, col, i['date'])
-        worksheet.write(row, col + 1, i['product'])
-        worksheet.write(row, col + 2, i['unit'])
-        worksheet.write(row, col + 3, int(i['quantity']))
-        worksheet.write(row, col + 4, int(i['rate']))
-        worksheet.write(row, col + 5, int(i['amount']))
-        worksheet.write(row, col + 6, int(i['received']))
-        row += 1
 
-    worksheet.write(row, 3, 'Remaining Balance',       bold)
-    worksheet.write(row, 8, int(cust_details['balance']), bold)
-    workbook.close()
-    doc.save("generated")
     return render_template('admin/admin_ledger_report.html', customers=customers, farmers = farmers)
 
 @app.route('/LedgerReport')
-def get_doc():
-    return send_file('static/excels/Expenses02.docx', attachment_filename="LedgerReport.docx")
+def get_excel():
+    return send_file('static/excels/Expenses02.xlsx', attachment_filename="LedgerReport.xlsx")
     return redirect(url_for('customer_ledger'))
-
 
 
 if __name__ == '__main__':
