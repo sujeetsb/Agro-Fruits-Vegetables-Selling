@@ -1,2 +1,3 @@
-
+#the following files or folders will not be tracked by git
 .vscode/*
+env/*
