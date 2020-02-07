@@ -17,7 +17,7 @@ from reportlab.pdfgen import canvas
 
 
 app = Flask(__name__)
-
+app.static_folder = "./static"
 app.secret_key = "ggz_k99e51#-2$1$vd^6s71gpn04$m%$y@8j_9k^6&do0k%6=8"
 
 app.config['MONGO_DBNAME'] = "ATY_FRESH"
