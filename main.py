@@ -6,14 +6,7 @@ from flask_pymongo import PyMongo
 from functools import wraps
 from docxtpl import DocxTemplate
 import datetime
-from reportlab.pdfgen import canvas
-# from openpyxl import Workbook
-# import xlsxwriter
-# import docx
-# import os
-# import csv
-
-
+# from reportlab.pdfgen import canvas
 
 
 app = Flask(__name__)
@@ -25,9 +18,6 @@ app.config['MONGO_URI'] = "mongodb://localhost:27017/ATY_FRESH"
 
 mongo = PyMongo(app)
 
- 
-
-    
 
 #login required decorator
 def login_required(f):
@@ -45,11 +35,6 @@ def login_required(f):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
-
-#--------------------------------------------- REGISTER PAGE ------------------------------------------------
-
-
-
 
 #-------------------------------------------- PRODUCTS GALLERY ------------------------------------------
 
@@ -113,13 +98,10 @@ def dashboard_purchase(user=None):
     now = datetime.datetime.now()
     today = now.strftime("%d-%m-%Y")
     login_user = mongo.db.users.find_one({'username': user})
-    productloose = mongo.db.products.find()
-    productregular = mongo.db.products.find()
-    farmerloose = mongo.db.farmers.find()
-    farmerregular = mongo.db.farmers.find()
+    productloose = productregular = mongo.db.products.find()
+    farmerloose = farmerregular = mongo.db.farmers.find()
     grade = mongo.db.grade.find()
-    transportloose = mongo.db.transport.find()
-    transportregular = mongo.db.transport.find()
+    transportloose = transportregular = mongo.db.transport.find()
     if request.method == "POST":
         date = request.form['date']
         date = date.replace('/', '-')
@@ -138,8 +120,6 @@ def dashboard_purchase(user=None):
             details.insert({farmerloose: request.form['farmer'],'type':"loose", productloose: request.form['product'], "amount": "0",
             "grade": request.form['grade'], quantityloose: request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
             transportloose : request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
-        
-           
             return render_template('team/purchase.html', productloose = productloose, farmerloose = farmerloose, transportloose = transportloose, user = user, login_user = login_user, today = today,grade = grade)
         elif request.form["button"]=="regular":
             farmerregular = request.form['farmer']
@@ -151,8 +131,6 @@ def dashboard_purchase(user=None):
             details.regular.insert({farmerregular : request.form['farmer'],'type':"regular", productregular : request.form['product'], "amount": "0",
             "grade": request.form['grade'], quantityregular: request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
             transportregular: request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
-        
-          
             return render_template('team/purchase.html', productregular = productregular, farmerregular = farmerregular, transportregular = transportregular, user=user, login_user=login_user, today=today, grade = grade )  
     return render_template('team/purchase.html', productloose = productloose, productregular = productregular, farmerloose = farmerloose, farmerregular = farmerregular,  transportloose = transportloose, transportregular = transportregular, user=user, login_user=login_user, today = today, grade = grade)
 
@@ -178,10 +156,9 @@ def farmers_purchase(user=None):
 def dashboard_sell(user=None):
     now = datetime.datetime.now()
     today = now.strftime("%d-%m-%Y")
-    productloose = mongo.db.products.find()
-    productregular = mongo.db.products.find()
+    productloose = productregular = mongo.db.products.find()
     customerloose = mongo.db.customers.find()
-    customerregular = mongo.db.customers.find()
+    customerregular = customerregular = mongo.db.customers.find()
     login_user = mongo.db.users.find_one({'username': user})
     if request.method == "POST":
         # Information taken from Form
@@ -210,9 +187,7 @@ def dashboard_sell(user=None):
 
             # customer Information for
             customer_info = mongo.db.customers.find_one({"nick_name": customer}) 
-            cust_phone = customer_info['contact']
-		
-          
+            cust_phone = customer_info['contact']         
             return render_template('team/sell.html', productloose = productloose, customerloose = customerloose , user=user, login_user=login_user, today=today)
         elif request.form["button"]=="regular":
             customerregular = request.form['customer']
@@ -239,8 +214,6 @@ def dashboard_sell(user=None):
             # customer Information for
             customer_info = mongo.db.customers.find_one({"nick_name": customer}) 
             cust_phone = customer_info['contact']
-		
-          
             return render_template('team/sell.html', productregular = productregular, customerregular = customersregular, user=user, login_user=login_user, today=today)
     return render_template('team/sell.html',productloose=productloose, productregular = productregular, customerloose = customerloose, customerregular = customerregular, user=user, login_user=login_user, today=today)
 
@@ -507,6 +480,117 @@ def farmer_ledger():
 def get_excel():
     return send_file('static/excels/Expenses02.xlsx', attachment_filename="LedgerReport.xlsx")
     return redirect(url_for('customer_ledger'))
+
+@app.route('/admin_sell_entry/<user>', methods = ['GET', 'POST'])
+@login_required
+def admin_sell_entry(user=None):
+    now = datetime.datetime.now()
+    today = now.strftime("%d-%m-%Y")
+    productloose = productregular = mongo.db.products.find()
+    customerloose = mongo.db.customers.find()
+    customerregular = customerregular = mongo.db.customers.find()
+    login_user = mongo.db.users.find_one({'username': user})
+    if request.method == "POST":
+        # Information taken from Form
+        now = datetime.datetime.now()
+        if request.form["button"]=="loose":
+            customerloose = request.form['customer']
+            quantity = request.form['quantity']
+            grade = request.form['grade']
+            rate = request.form['rate']
+            productloose = request.form['product']
+            unit = request.form['unit']
+            date = request.form['date']
+            date = date.replace('/',"-")
+            # information related to transaction from collection amount_details
+            amount_details = mongo.db.customers.find_one({"nick_name" : customer})
+            amount = str(int(quantity) * int(rate))
+            balance = str(int(amount_details['balance']) + int(amount))
+            amount_details['balance'] = balance
+            mongo.db.customers.save(amount_details)
+
+            # insert data into collection Sales_details
+            sales = mongo.db.sales_details
+            sales.insert({'customer': customerloose,'type':'loose', 'product': productloose, "received" : "0",
+            "quantity": quantity,"grade":grade, "unit": unit, "rate": rate, "amount": amount, "balance": balance,
+            "date": date, "time": now.strftime("%H:%M")})
+
+            # customer Information for
+            customer_info = mongo.db.customers.find_one({"nick_name": customer}) 
+            cust_phone = customer_info['contact']         
+            return render_template('admin/admin_sell_entry.html', productloose = productloose, customerloose = customerloose , user=user, login_user=login_user, today=today)
+        elif request.form["button"]=="regular":
+            customerregular = request.form['customer']
+            quantity = request.form['quantity']
+            grade = request.form['grade']
+            rate = request.form['rate']
+            productregular = request.form['product']
+            unit = request.form['unit']
+            date = request.form['date']
+            date = date.replace('/',"-")
+            # information related to transaction from collection amount_details
+            amount_details = mongo.db.customers.find_one({"nick_name" : customer})
+            amount = str(int(quantity) * int(rate))
+            balance = str(int(amount_details['balance']) + int(amount))
+            amount_details['balance'] = balance
+            mongo.db.customers.save(amount_details)
+
+            # insert data into collection Sales_details
+            sales = mongo.db.sales_details
+            sales.regular.insert({'customer': customerregular, 'product': productregular, "received" : "0", "type":"regular",
+            "quantity": quantity,"grade":grade, "unit": unit, "rate": rate, "amount": amount, "balance": balance,
+            "date": date, "time": now.strftime("%H:%M")})
+
+            # customer Information for
+            customer_info = mongo.db.customers.find_one({"nick_name": customer}) 
+            cust_phone = customer_info['contact']
+            return render_template('admin/admin_sell_entry.html', productregular = productregular, customerregular = customersregular, user=user, login_user=login_user, today=today)
+    return render_template('admin/admin_sell_entry.html',productloose=productloose, productregular = productregular, customerloose = customerloose, customerregular = customerregular, user=user, login_user=login_user, today=today)
+
+
+@app.route('/admin_purchase_entry/<user>', methods = ['GET', 'POST'])
+@login_required
+def admin_purchase_entry(user=None):
+    now = datetime.datetime.now()
+    today = now.strftime("%d-%m-%Y")
+    login_user = mongo.db.users.find_one({'username': user})
+    productloose = productregular = mongo.db.products.find()
+    farmerloose = farmerregular = mongo.db.farmers.find()
+    grade = mongo.db.grade.find()
+    transportloose = transportregular = mongo.db.transport.find()
+    if request.method == "POST":
+        date = request.form['date']
+        date = date.replace('/', '-')
+        time = now.strftime("%H:%M")
+        year = now.strftime("%Y")
+        day = now.strftime("%d")
+        month = now.strftime("%m")
+        if request.form["button"]=="loose":
+            farmerloose = request.form['farmer']
+            productloose = request.form['product']
+            quantityloose = request.form['quantity']
+            grade = request.form['grade']
+            transportloose = request.form['transport']
+            # farmer_phone = request.form['farmer_phone']
+            details = mongo.db.purchase_details
+            details.insert({farmerloose: request.form['farmer'],'type':"loose", productloose: request.form['product'], "amount": "0",
+            "grade": request.form['grade'], quantityloose: request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
+            transportloose : request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
+            return render_template('admin/admin_purchase_entry.html', productloose = productloose, farmerloose = farmerloose, transportloose = transportloose, user = user, login_user = login_user, today = today,grade = grade)
+        elif request.form["button"]=="regular":
+            farmerregular = request.form['farmer']
+            productregular = request.form['product']
+            quantityregular = request.form['quantity']
+            grade = request.form['grade']
+            transportregular = request.form['transport']
+            details = mongo.db.purchase_details
+            details.regular.insert({farmerregular : request.form['farmer'],'type':"regular", productregular : request.form['product'], "amount": "0",
+            "grade": request.form['grade'], quantityregular: request.form['quantity'], "unit": request.form['unit'], "rate": "NA",
+            transportregular: request.form['transport'], "date":date, "time":time, "year":year, "day":day, "month":month})
+            return render_template('admin/admin_purchase_entry.html', productregular = productregular, farmerregular = farmerregular, transportregular = transportregular, user=user, login_user=login_user, today=today, grade = grade )  
+    return render_template('admin/admin_purchase_entry.html', productloose = productloose, productregular = productregular, farmerloose = farmerloose, farmerregular = farmerregular,  transportloose = transportloose, transportregular = transportregular, user=user, login_user=login_user, today = today, grade = grade)
+
+
 
 
 if __name__ == '__main__':
